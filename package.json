@@ -1,0 +1,24 @@
+{
+  "name": "wegocoffeeshopapp",
+  "version": "1.0.0",
+  "description": "Technical Test",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XavierEr/WegoCoffeeShopApp.git"
+  },
+  "author": "Xavier Er",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XavierEr/WegoCoffeeShopApp/issues"
+  },
+  "homepage": "https://github.com/XavierEr/WegoCoffeeShopApp#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.10"
+  }
+}
