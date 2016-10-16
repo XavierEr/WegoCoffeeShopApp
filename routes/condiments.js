@@ -29,13 +29,14 @@ router.get('/:condimentId', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    if (!req.body.name || req.body.name === '' || !req.body.price) {
+    if (!req.body.name || req.body.name === '' || !req.body.price || isNaN(req.body.price)) {
         res.sendStatus(400);
         return;
     }
 
     var o_id = new mongo.ObjectID();
     req.body._id = o_id;
+    req.body.price = parseFloat(req.body.price);
 
     req.db(function (db) {
         db.collection(collectionName).insertOne(req.body).then(function (r) {

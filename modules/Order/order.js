@@ -13,6 +13,7 @@ class Order extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoadingBeverages: true,
             beverages: [],
             selectedBeverage: null,
             availableSizes: [],
@@ -32,7 +33,7 @@ class Order extends React.Component {
 
     componentDidMount() {
         this.beveragesRequest = $.get(beveragesUrl, function (result) {
-            this.setState({ beverages: result });
+            this.setState({ beverages: result, isLoadingBeverages: false });
         }.bind(this));
 
         this.condimentsRequest = $.get(condimentsUrl, function (result) {
@@ -59,7 +60,6 @@ class Order extends React.Component {
     }
 
     handleSelectedType(type) {
-        console.log(type);
         this.setState({ selectedType: type, selectedCondiments: [], totalPrice: type.price });
     }
 
@@ -74,7 +74,7 @@ class Order extends React.Component {
 
     handleOrderSubmit(e) {
         e.preventDefault();
-        alert('Hello');
+        this.setState({ selectedBeverage: null, availableSizes: [], selectedSize: '', availableTypes: [], selectedType: null, selectedCondiments: [], totalPrice: 0 });
     }
 
     render() {
@@ -82,7 +82,7 @@ class Order extends React.Component {
             <div>
                 <div className="col-md-8">
                     <div className="row">
-                        <BeverageOptionsRow beverages={this.state.beverages} selectedBeverage={this.state.selectedBeverage} onBeverageSelect={this.handleSelectedBeverage} />
+                        <BeverageOptionsRow beverages={this.state.beverages} isLoadingBeverages={this.state.isLoadingBeverages} selectedBeverage={this.state.selectedBeverage} onBeverageSelect={this.handleSelectedBeverage} />
                     </div>
 
                     <div className="row">
