@@ -34,10 +34,13 @@ router.post('/', function (req, res) {
         return;
     }
 
+    var o_id = new mongo.ObjectID();
+    req.body._id = o_id;
+
     req.db(function (db) {
         db.collection(collectionName).insertOne(req.body).then(function (r) {
             if (r.insertedCount === 1) {
-                res.sendStatus(201);
+                res.status(201).send(o_id);
             } else {
                 res.sendStatus(400);
             }

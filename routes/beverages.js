@@ -34,6 +34,9 @@ router.post('/', function (req, res) {
         return;
     }
 
+    var o_id = new mongo.ObjectID();
+    req.body._id = o_id;
+
     req.db(function (db) {
         db.collection(collectionName).findOne({ name: req.body.name }).then(function (doc) {
             if (!doc) {

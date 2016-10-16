@@ -1,0 +1,94 @@
+/* Master Styles */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+h2, h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+body {
+  margin: 2em;
+}
+body, input[text], button {
+  color: #888;
+  font-family: Cambria, Georgia;
+}
+a {
+  cursor: pointer;
+  cursor: hand;
+}
+
+/* Navigation link styles */
+nav a {
+  padding: 5px 10px;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #eee;
+  border-radius: 4px;
+}
+nav a:visited, a:link {
+  color: #607D8B;
+}
+nav a:hover {
+  color: #039be5;
+  background-color: #CFD8DC;
+}
+nav a.active {
+  color: #039be5;
+}
+
+/* everywhere else */
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Drinks Row */
+.module {
+	padding: 20px;
+	text-align: center;
+	color: #eee;
+	max-height: 120px;
+	min-width: 150px;
+	background-color: #607D8B;
+	border-radius: 2px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.module:hover {
+  background-color: #EEE;
+  cursor: pointer;
+  color: #607d8b;
+}
+
+.selected {
+  background-color: #EEE;
+  cursor: pointer;
+  color: #607d8b;
+}
+
+.checkout {
+  padding: 20px;
+	text-align: center;
+  color: #eee;
+  background-color: #607D8B;
+	border-radius: 2px;
+  min-height: 70px;
+  width: 100%;
+}
+
+.checkout:hover {
+  background-color: #EEE;
+  cursor: pointer;
+  color: #607d8b;
+}
+
+.checkout:disabled {
+  background-color: #eee;
+  color: #aaa;
+  cursor: auto;
+}

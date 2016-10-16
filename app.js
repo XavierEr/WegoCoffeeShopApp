@@ -28,9 +28,12 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', index);
-app.use('/sizes', sizes);
-app.use('/beverages', beverages);
-app.use('/condiments', condiments);
+app.use('/api/sizes', sizes);
+app.use('/api/beverages', beverages);
+app.use('/api/condiments', condiments);
 
-app.use(express.static('public'));
+// app.use('/lib', express.static(__dirname + '/public/lib'));
+app.use('/src', express.static(__dirname + '/public/src'));
+app.use('/css', express.static(__dirname + '/public/css'));
+// app.use(express.static('public'));
 app.listen(3000)
