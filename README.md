@@ -21,8 +21,10 @@
 - Click on "Size" button to group orders by size.
 
 ### View/Add/Remove Beverage
+
 #### View
   - Click on "Beverages" tab.
+  
 #### Add
   - Click on "Add Beverage" button
   
