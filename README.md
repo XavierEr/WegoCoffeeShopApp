@@ -14,3 +14,15 @@
 - Select preferred type. (Hot/Cold)
 - Select condiments to add it to your drinks. (To clear selected condiments click on type)
 - Click on "Checkout" to confirm orders.
+
+### View All Orders
+
+- Click on "All Orders" tab. (Type of drinks is group by default)
+- Click on "Size" button to group orders by size.
+
+### View/Add/Remove Beverage
+#### View
+  - Click on "Beverages" tab.
+#### Add
+  - Click on "Add Beverage" button
+  
