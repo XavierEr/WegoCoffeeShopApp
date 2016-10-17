@@ -437,7 +437,7 @@ var React = require('react');
 var CondimentForm = require('./condimentForm');
 var CondimentsTable = require('./condimentsTable');
 
-const url = "/api/condiments";
+const condimentsApiUrl = "/api/condiments";
 
 class Condiments extends React.Component {
     constructor(props) {
@@ -447,7 +447,7 @@ class Condiments extends React.Component {
     }
 
     componentDidMount() {
-        this.serverRequest = $.get(url, function (result) {
+        this.serverRequest = $.get(condimentsApiUrl, function (result) {
             this.setState({ condiments: result });
         }.bind(this));
     }
@@ -460,7 +460,7 @@ class Condiments extends React.Component {
         var condiments = this.state.condiments;
         var newCondiments = condiments.concat([condiment]);
 
-        $.post(url, condiment, function (data) {
+        $.post(condimentsApiUrl, condiment, function (data) {
             condiment._id = data;
             this.setState({ condiments: newCondiments });
         }.bind(this));
@@ -837,8 +837,9 @@ var BeverageTypeOptionsRow = require('./beverageTypeOptionsRow');
 var CondimentOptionsRow = require('./condimentOptionsRow');
 var MyOrderRow = require('./myOrderRow');
 
-const beveragesUrl = "/api/beverages";
-const condimentsUrl = "/api/condiments";
+const beveragesApiUrl = "/api/beverages";
+const condimentsApiUrl = "/api/condiments";
+const ordersApiUrl = "api/orders";
 
 class Order extends React.Component {
     constructor(props) {
@@ -863,11 +864,11 @@ class Order extends React.Component {
     }
 
     componentDidMount() {
-        this.beveragesRequest = $.get(beveragesUrl, function (result) {
+        this.beveragesRequest = $.get(beveragesApiUrl, function (result) {
             this.setState({ beverages: result, isLoadingBeverages: false });
         }.bind(this));
 
-        this.condimentsRequest = $.get(condimentsUrl, function (result) {
+        this.condimentsRequest = $.get(condimentsApiUrl, function (result) {
             this.setState({ condiments: result });
         }.bind(this));
     }
@@ -905,7 +906,19 @@ class Order extends React.Component {
 
     handleOrderSubmit(e) {
         e.preventDefault();
-        this.setState({ selectedBeverage: null, availableSizes: [], selectedSize: '', availableTypes: [], selectedType: null, selectedCondiments: [], totalPrice: 0 });
+
+        var order = {
+            beverage: this.state.selectedBeverage.name,
+            type: this.state.selectedBeverage.type,
+            size: this.state.selectedSize,
+            isHotBeverage: this.state.selectedType.isHotBeverage,
+            condiments: this.state.selectedCondiments,
+            totalPrice: this.state.totalPrice
+        };
+
+        $.post(ordersApiUrl, order, function (data) {
+            this.setState({ selectedBeverage: null, availableSizes: [], selectedSize: '', availableTypes: [], selectedType: null, selectedCondiments: [], totalPrice: 0 });
+        }.bind(this));
     }
 
     render() {
@@ -1034,7 +1047,7 @@ var React = require('react');
 var SizeForm = require('./sizeForm');
 var SizesTable = require('./sizesTable');
 
-const url = "/api/sizes";
+const sizesApiurl = "/api/sizes";
 
 class Sizes extends React.Component {
     constructor(props) {
@@ -1044,7 +1057,7 @@ class Sizes extends React.Component {
     }
 
     componentDidMount() {
-        this.serverRequest = $.get(url, function (result) {
+        this.serverRequest = $.get(sizesApiurl, function (result) {
             this.setState({ sizes: result });
         }.bind(this));
     }
@@ -1057,7 +1070,7 @@ class Sizes extends React.Component {
         var sizes = this.state.sizes;
         var newSizes = sizes.concat([size]);
 
-        $.post(url, size, function (data) {
+        $.post(sizesApiurl, size, function (data) {
             size._id = data;
             this.setState({ sizes: newSizes });
         }.bind(this));

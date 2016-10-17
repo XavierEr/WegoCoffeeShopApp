@@ -6,7 +6,7 @@ var hashHistory = require('react-router').hashHistory;
 
 var mainLayout = require('./mainLayout');
 var order = require('./Order/order');
-var orders = require('./orders');
+var orders = require('./Orders/orders');
 var beverages = require('./Beverages/beverages');
 var condiments = require('./Condiments/condiments');
 var sizes = require('./Sizes/sizes');

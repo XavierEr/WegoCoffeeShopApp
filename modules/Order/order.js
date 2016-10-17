@@ -6,8 +6,9 @@ var BeverageTypeOptionsRow = require('./beverageTypeOptionsRow');
 var CondimentOptionsRow = require('./condimentOptionsRow');
 var MyOrderRow = require('./myOrderRow');
 
-const beveragesUrl = "/api/beverages";
-const condimentsUrl = "/api/condiments";
+const beveragesApiUrl = "/api/beverages";
+const condimentsApiUrl = "/api/condiments";
+const ordersApiUrl = "api/orders";
 
 class Order extends React.Component {
     constructor(props) {
@@ -32,11 +33,11 @@ class Order extends React.Component {
     }
 
     componentDidMount() {
-        this.beveragesRequest = $.get(beveragesUrl, function (result) {
+        this.beveragesRequest = $.get(beveragesApiUrl, function (result) {
             this.setState({ beverages: result, isLoadingBeverages: false });
         }.bind(this));
 
-        this.condimentsRequest = $.get(condimentsUrl, function (result) {
+        this.condimentsRequest = $.get(condimentsApiUrl, function (result) {
             this.setState({ condiments: result });
         }.bind(this));
     }
@@ -74,7 +75,19 @@ class Order extends React.Component {
 
     handleOrderSubmit(e) {
         e.preventDefault();
-        this.setState({ selectedBeverage: null, availableSizes: [], selectedSize: '', availableTypes: [], selectedType: null, selectedCondiments: [], totalPrice: 0 });
+
+        var order = {
+            beverage: this.state.selectedBeverage.name,
+            type: this.state.selectedBeverage.type,
+            size: this.state.selectedSize,
+            isHotBeverage: this.state.selectedType.isHotBeverage,
+            condiments: this.state.selectedCondiments,
+            totalPrice: this.state.totalPrice
+        };
+
+        $.post(ordersApiUrl, order, function (data) {
+            this.setState({ selectedBeverage: null, availableSizes: [], selectedSize: '', availableTypes: [], selectedType: null, selectedCondiments: [], totalPrice: 0 });
+        }.bind(this));
     }
 
     render() {

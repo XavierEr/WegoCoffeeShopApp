@@ -3,7 +3,7 @@ var React = require('react');
 var CondimentForm = require('./condimentForm');
 var CondimentsTable = require('./condimentsTable');
 
-const url = "/api/condiments";
+const condimentsApiUrl = "/api/condiments";
 
 class Condiments extends React.Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class Condiments extends React.Component {
     }
 
     componentDidMount() {
-        this.serverRequest = $.get(url, function (result) {
+        this.serverRequest = $.get(condimentsApiUrl, function (result) {
             this.setState({ condiments: result });
         }.bind(this));
     }
@@ -26,7 +26,7 @@ class Condiments extends React.Component {
         var condiments = this.state.condiments;
         var newCondiments = condiments.concat([condiment]);
 
-        $.post(url, condiment, function (data) {
+        $.post(condimentsApiUrl, condiment, function (data) {
             condiment._id = data;
             this.setState({ condiments: newCondiments });
         }.bind(this));

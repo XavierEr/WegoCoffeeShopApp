@@ -3,7 +3,7 @@ var React = require('react');
 var SizeForm = require('./sizeForm');
 var SizesTable = require('./sizesTable');
 
-const url = "/api/sizes";
+const sizesApiurl = "/api/sizes";
 
 class Sizes extends React.Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class Sizes extends React.Component {
     }
 
     componentDidMount() {
-        this.serverRequest = $.get(url, function (result) {
+        this.serverRequest = $.get(sizesApiurl, function (result) {
             this.setState({ sizes: result });
         }.bind(this));
     }
@@ -26,7 +26,7 @@ class Sizes extends React.Component {
         var sizes = this.state.sizes;
         var newSizes = sizes.concat([size]);
 
-        $.post(url, size, function (data) {
+        $.post(sizesApiurl, size, function (data) {
             size._id = data;
             this.setState({ sizes: newSizes });
         }.bind(this));

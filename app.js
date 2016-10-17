@@ -9,11 +9,12 @@ var index = require('./routes/index');
 var sizes = require('./routes/sizes');
 var beverages = require('./routes/beverages');
 var condiments = require('./routes/condiments');
+var orders = require('./routes/orders');
 
 var app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function (req, res, next) {
     req.db = function (callback) {
@@ -31,6 +32,7 @@ app.use('/', index);
 app.use('/api/sizes', sizes);
 app.use('/api/beverages', beverages);
 app.use('/api/condiments', condiments);
+app.use('/api/orders', orders);
 
 // app.use('/lib', express.static(__dirname + '/public/lib'));
 app.use('/src', express.static(__dirname + '/public/src'));
