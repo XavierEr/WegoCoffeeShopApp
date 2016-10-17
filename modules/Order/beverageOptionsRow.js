@@ -7,7 +7,7 @@ class BeverageOptionsRow extends React.Component {
         return (
             <div>
                 <h3>Drinks</h3>
-                <div className="cdiv">
+                <div className="drinkdiv">
                     {this.props.isLoadingBeverages ? <Spinner /> : null}
                     {
                         this.props.beverages.map((item, i) => {
