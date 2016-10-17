@@ -34,18 +34,26 @@ class SizeFormModal extends React.Component {
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.props.hideModal}>
-                <form className="form-inline" onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Size</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="form-group">
-                            <label className="sr-only" htmlFor="sizeName">Name</label>
-                            <input id="sizeName" type="text" className="form-control" placeholder="Size Name" value={this.state.name} onChange={this.handleNameChange} />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                    <label htmlFor="sizeName">Name</label>
+                                    <input id="sizeName" type="text" className="form-control" placeholder="Size Name" value={this.state.name} onChange={this.handleNameChange} />
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label className="sr-only" htmlFor="sizeDescriptions">Size Descriptions</label>
-                            <input id="sizeDescriptions" type="text" className="form-control" placeholder="Descriptions" value={this.state.descriptions} onChange={this.handleDescriptionsChange} />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                    <label htmlFor="sizeDescriptions">Size Descriptions</label>
+                                    <input id="sizeDescriptions" type="text" className="form-control" placeholder="Descriptions" value={this.state.descriptions} onChange={this.handleDescriptionsChange} />
+                                </div>
+                            </div>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

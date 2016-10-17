@@ -4,13 +4,10 @@ var Spinner = require('../spinner');
 
 class BeverageOptionsRow extends React.Component {
     render() {
-        var divStyle = {
-            textAlign: "center",
-        };
         return (
             <div>
                 <h3>Drinks</h3>
-                <div style={divStyle}>
+                <div className="cdiv">
                     {this.props.isLoadingBeverages ? <Spinner /> : null}
                     {
                         this.props.beverages.map((item, i) => {

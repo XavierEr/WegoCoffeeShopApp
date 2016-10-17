@@ -696,7 +696,7 @@ class CondifmentFormModal extends React.Component {
             { show: this.props.showModal, onHide: this.props.hideModal },
             React.createElement(
                 'form',
-                { className: 'form-inline', onSubmit: this.handleSubmit },
+                { onSubmit: this.handleSubmit },
                 React.createElement(
                     Modal.Header,
                     { closeButton: true },
@@ -711,23 +711,39 @@ class CondifmentFormModal extends React.Component {
                     null,
                     React.createElement(
                         'div',
-                        { className: 'form-group' },
+                        { className: 'row' },
                         React.createElement(
-                            'label',
-                            { className: 'sr-only', htmlFor: 'condimentName' },
-                            'Name'
-                        ),
-                        React.createElement('input', { id: 'condimentName', type: 'text', className: 'form-control', placeholder: 'Condiment Name', value: this.state.name, onChange: this.handleNameChange })
+                            'div',
+                            { className: 'col-md-12' },
+                            React.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                React.createElement(
+                                    'label',
+                                    { htmlFor: 'beverageName' },
+                                    'Name'
+                                ),
+                                React.createElement('input', { id: 'beverageName', type: 'text', className: 'form-control', placeholder: 'Beverage Name', value: this.state.name, onChange: this.handleNameChange })
+                            )
+                        )
                     ),
                     React.createElement(
                         'div',
-                        { className: 'form-group' },
+                        { className: 'row' },
                         React.createElement(
-                            'label',
-                            { className: 'sr-only', htmlFor: 'condimentPrice' },
-                            'Price'
-                        ),
-                        React.createElement('input', { id: 'condimentPrice', type: 'text', className: 'form-control', placeholder: 'Price', value: this.state.price, onChange: this.handlePriceChange })
+                            'div',
+                            { className: 'col-md-12' },
+                            React.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                React.createElement(
+                                    'label',
+                                    { htmlFor: 'condimentPrice' },
+                                    'Price'
+                                ),
+                                React.createElement('input', { id: 'condimentPrice', type: 'text', className: 'form-control', placeholder: 'Price', value: this.state.price, onChange: this.handlePriceChange })
+                            )
+                        )
                     )
                 ),
                 React.createElement(
@@ -891,9 +907,6 @@ var Spinner = require('../spinner');
 
 class BeverageOptionsRow extends React.Component {
     render() {
-        var divStyle = {
-            textAlign: "center"
-        };
         return React.createElement(
             'div',
             null,
@@ -904,7 +917,7 @@ class BeverageOptionsRow extends React.Component {
             ),
             React.createElement(
                 'div',
-                { style: divStyle },
+                { className: 'cdiv' },
                 this.props.isLoadingBeverages ? React.createElement(Spinner, null) : null,
                 this.props.beverages.map((item, i) => {
                     return React.createElement(
@@ -1320,6 +1333,7 @@ module.exports = Order;
 },{"./beverageOptionsRow":10,"./beverageSizeOptionsRow":11,"./beverageTypeOptionsRow":12,"./condimentOptionsRow":13,"./myOrderRow":14,"react":528}],16:[function(require,module,exports){
 var React = require('react');
 
+var Spinner = require('../spinner');
 var OrdersTable = require('./ordersTable');
 
 const url = "/api/orders";
@@ -1327,17 +1341,18 @@ const url = "/api/orders";
 class Orders extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { orders: [], groupBy: 'type' };
+        this.state = { orders: [], groupBy: 'type', isLoading: false };
         this.handleGroupByType = this.handleGroupByType.bind(this);
         this.handleGroupBySize = this.handleGroupBySize.bind(this);
     }
 
     componentDidMount() {
+        this.setState({ isLoading: true });
         this.serverRequest = $.get(url, function (result) {
             var sortedOrders = _.sortBy(result, order => {
                 return order.type;
             });
-            this.setState({ orders: sortedOrders });
+            this.setState({ orders: sortedOrders, isLoading: false });
         }.bind(this));
     }
 
@@ -1363,6 +1378,11 @@ class Orders extends React.Component {
         var totalSales = _.reduce(this.state.orders, (memo, num) => {
             return memo + num.totalPrice;
         }, 0);
+
+        var buttonStyle = {
+            marginRight: "5px"
+        };
+
         return React.createElement(
             'div',
             null,
@@ -1384,12 +1404,12 @@ class Orders extends React.Component {
                     ),
                     React.createElement(
                         'button',
-                        { onClick: this.handleGroupByType },
+                        { style: buttonStyle, className: 'btn btn-default', onClick: this.handleGroupByType },
                         'Type'
                     ),
                     React.createElement(
                         'button',
-                        { onClick: this.handleGroupBySize },
+                        { className: 'btn btn-default', onClick: this.handleGroupBySize },
                         'Size'
                     )
                 ),
@@ -1406,8 +1426,18 @@ class Orders extends React.Component {
             ),
             React.createElement(
                 'div',
-                null,
-                React.createElement(OrdersTable, { orders: this.state.orders, groupBy: this.state.groupBy })
+                { className: 'cdiv' },
+                this.state.isLoading ? React.createElement('div', { className: 'bdiv' }) : null,
+                this.state.isLoading ? React.createElement(Spinner, null) : null,
+                React.createElement(
+                    'div',
+                    { className: 'row' },
+                    React.createElement(
+                        'div',
+                        { className: 'col-md-12' },
+                        React.createElement(OrdersTable, { orders: this.state.orders, groupBy: this.state.groupBy })
+                    )
+                )
             )
         );
     }
@@ -1415,7 +1445,7 @@ class Orders extends React.Component {
 
 module.exports = Orders;
 
-},{"./ordersTable":19,"react":528}],17:[function(require,module,exports){
+},{"../spinner":25,"./ordersTable":19,"react":528}],17:[function(require,module,exports){
 var React = require('react');
 
 class OrdersCategoryRow extends React.Component {
@@ -1583,7 +1613,7 @@ class SizeFormModal extends React.Component {
             { show: this.props.showModal, onHide: this.props.hideModal },
             React.createElement(
                 'form',
-                { className: 'form-inline', onSubmit: this.handleSubmit },
+                { onSubmit: this.handleSubmit },
                 React.createElement(
                     Modal.Header,
                     { closeButton: true },
@@ -1598,23 +1628,39 @@ class SizeFormModal extends React.Component {
                     null,
                     React.createElement(
                         'div',
-                        { className: 'form-group' },
+                        { className: 'row' },
                         React.createElement(
-                            'label',
-                            { className: 'sr-only', htmlFor: 'sizeName' },
-                            'Name'
-                        ),
-                        React.createElement('input', { id: 'sizeName', type: 'text', className: 'form-control', placeholder: 'Size Name', value: this.state.name, onChange: this.handleNameChange })
+                            'div',
+                            { className: 'col-md-12' },
+                            React.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                React.createElement(
+                                    'label',
+                                    { htmlFor: 'sizeName' },
+                                    'Name'
+                                ),
+                                React.createElement('input', { id: 'sizeName', type: 'text', className: 'form-control', placeholder: 'Size Name', value: this.state.name, onChange: this.handleNameChange })
+                            )
+                        )
                     ),
                     React.createElement(
                         'div',
-                        { className: 'form-group' },
+                        { className: 'row' },
                         React.createElement(
-                            'label',
-                            { className: 'sr-only', htmlFor: 'sizeDescriptions' },
-                            'Size Descriptions'
-                        ),
-                        React.createElement('input', { id: 'sizeDescriptions', type: 'text', className: 'form-control', placeholder: 'Descriptions', value: this.state.descriptions, onChange: this.handleDescriptionsChange })
+                            'div',
+                            { className: 'col-md-12' },
+                            React.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                React.createElement(
+                                    'label',
+                                    { htmlFor: 'sizeDescriptions' },
+                                    'Size Descriptions'
+                                ),
+                                React.createElement('input', { id: 'sizeDescriptions', type: 'text', className: 'form-control', placeholder: 'Descriptions', value: this.state.descriptions, onChange: this.handleDescriptionsChange })
+                            )
+                        )
                     )
                 ),
                 React.createElement(
@@ -1726,7 +1772,7 @@ class SizesTable extends React.Component {
     render() {
         return React.createElement(
             "table",
-            { className: "table table-striped table-condensed" },
+            { className: "table table-condensed" },
             React.createElement(
                 "thead",
                 null,

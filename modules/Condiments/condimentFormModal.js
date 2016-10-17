@@ -36,18 +36,26 @@ class CondifmentFormModal extends React.Component {
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.props.hideModal}>
-                <form className="form-inline" onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add Condiment</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="form-group">
-                            <label className="sr-only" htmlFor="condimentName">Name</label>
-                            <input id="condimentName" type="text" className="form-control" placeholder="Condiment Name" value={this.state.name} onChange={this.handleNameChange} />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                    <label htmlFor="beverageName">Name</label>
+                                    <input id="beverageName" type="text" className="form-control" placeholder="Beverage Name" value={this.state.name} onChange={this.handleNameChange} />
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label className="sr-only" htmlFor="condimentPrice">Price</label>
-                            <input id="condimentPrice" type="text" className="form-control" placeholder="Price" value={this.state.price} onChange={this.handlePriceChange} />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                    <label htmlFor="condimentPrice">Price</label>
+                                    <input id="condimentPrice" type="text" className="form-control" placeholder="Price" value={this.state.price} onChange={this.handlePriceChange} />
+                                </div>
+                            </div>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
