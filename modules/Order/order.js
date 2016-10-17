@@ -15,6 +15,7 @@ class Order extends React.Component {
         super(props);
         this.state = {
             isLoadingBeverages: true,
+            isCheckingOut: false,
             beverages: [],
             selectedBeverage: null,
             availableSizes: [],
@@ -76,6 +77,8 @@ class Order extends React.Component {
     handleOrderSubmit(e) {
         e.preventDefault();
 
+        this.setState({ isCheckingOut: true });
+
         var order = {
             beverage: this.state.selectedBeverage.name,
             type: this.state.selectedBeverage.type,
@@ -86,7 +89,7 @@ class Order extends React.Component {
         };
 
         $.post(ordersApiUrl, order, function (data) {
-            this.setState({ selectedBeverage: null, availableSizes: [], selectedSize: '', availableTypes: [], selectedType: null, selectedCondiments: [], totalPrice: 0 });
+            this.setState({ selectedBeverage: null, availableSizes: [], selectedSize: '', availableTypes: [], selectedType: null, selectedCondiments: [], totalPrice: 0, isCheckingOut: false });
         }.bind(this));
     }
 
@@ -115,7 +118,7 @@ class Order extends React.Component {
                         <MyOrderRow selectedBeverage={this.state.selectedBeverage} selectedSize={this.state.selectedSize} selectedType={this.state.selectedType} selectedCondiments={this.state.selectedCondiments} totalPrice={this.state.totalPrice} />
                         <div className="row">
                             <div className="col-md-12">
-                                <input type="submit" className="btn btn-lg checkout" disabled={!this.state.selectedType} value="CHECKOUT" />
+                                <input type="submit" className="btn btn-lg checkout" disabled={!this.state.selectedType || this.state.isCheckingOut} value="CHECKOUT" />
                             </div>
                         </div>
                     </form>

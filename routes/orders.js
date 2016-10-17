@@ -41,6 +41,8 @@ router.post('/', function (req, res) {
         return;
     }
 
+    req.body.totalPrice = parseFloat(req.body.totalPrice);
+
     req.db(function (db) {
         db.collection(collectionName).insertOne(req.body).then(function (r) {
             if (r.insertedCount === 1) {

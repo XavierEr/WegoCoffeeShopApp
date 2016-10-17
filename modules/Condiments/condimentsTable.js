@@ -3,7 +3,7 @@ var React = require('react');
 class CondimentsTable extends React.Component {
     render() {
         return (
-            <table className="table table-striped table-condensed">
+            <table className="table table-condensed">
                 <thead>
                     <tr>
                         <th>Name</th>
