@@ -45,7 +45,7 @@ class CondifmentFormModal extends React.Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <label htmlFor="beverageName">Name</label>
-                                    <input id="beverageName" type="text" className="form-control" placeholder="Beverage Name" value={this.state.name} onChange={this.handleNameChange} />
+                                    <input id="beverageName" type="text" className="form-control" placeholder="Condiment Name" value={this.state.name} onChange={this.handleNameChange} />
                                 </div>
                             </div>
                         </div>

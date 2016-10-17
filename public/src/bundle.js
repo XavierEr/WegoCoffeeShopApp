@@ -755,7 +755,7 @@ class CondifmentFormModal extends React.Component {
                                     { htmlFor: 'beverageName' },
                                     'Name'
                                 ),
-                                React.createElement('input', { id: 'beverageName', type: 'text', className: 'form-control', placeholder: 'Beverage Name', value: this.state.name, onChange: this.handleNameChange })
+                                React.createElement('input', { id: 'beverageName', type: 'text', className: 'form-control', placeholder: 'Condiment Name', value: this.state.name, onChange: this.handleNameChange })
                             )
                         )
                     ),
