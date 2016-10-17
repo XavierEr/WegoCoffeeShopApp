@@ -8,6 +8,7 @@ class SizesTable extends React.Component {
                     <tr>
                         <th>Name</th>
                         <th>Descriptions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,6 +18,7 @@ class SizesTable extends React.Component {
                                 <tr key={item._id}>
                                     <td>{item.name}</td>
                                     <td>{item.description}</td>
+                                    <td><button type="button" className="btn btn-default btn-xs" onClick={() => this.props.onRemove(item._id)}>Remove</button></td>
                                 </tr>
                             );
                         })

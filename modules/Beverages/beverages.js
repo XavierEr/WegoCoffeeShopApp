@@ -14,6 +14,7 @@ class Beverages extends React.Component {
         this.close = this.close.bind(this);
         this.open = this.open.bind(this);
         this.handleBeverageSubmit = this.handleBeverageSubmit.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -61,6 +62,21 @@ class Beverages extends React.Component {
         }.bind(this));
     }
 
+    handleRemove(id) {
+        this.setState({ isLoading: true });
+        $.ajax({
+            url: beveragesApiUrl + "/" + id,
+            type: 'DELETE',
+            success: function (data) {
+                var beverages = _.reject(this.state.beverages, (item) => { return item._id === id });
+                this.setState({ beverages: beverages, isLoading: false });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(condimentsApiUrl, status, err.toString());
+            }.bind(this)
+        });
+    }
+
     render() {
         return (
             <div>
@@ -72,7 +88,7 @@ class Beverages extends React.Component {
                     {this.state.isLoading ? <Spinner /> : null}
                     <div className="row">
                         <div className="col-md-12">
-                            <BeveragesTable beverages={this.state.beverages} />
+                            <BeveragesTable beverages={this.state.beverages} onRemove={this.handleRemove} />
                         </div>
                     </div>
                 </div>

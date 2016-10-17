@@ -44,6 +44,12 @@ nav a.active {
 }
 
 /* Drinks Row */
+.drinkdiv{
+  position: relative;
+  min-height: 150px;
+  margin-top: 10px;
+}
+
 .module {
 	padding: 20px;
 	text-align: center;

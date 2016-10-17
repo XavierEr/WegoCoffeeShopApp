@@ -20,6 +20,7 @@ class BeveragesRow extends React.Component {
                 <td>{tallPrices}</td>
                 <td>{grandePrices}</td>
                 <td>{ventiPrices}</td>
+                <td><button type="button" className="btn btn-default btn-xs" onClick={() => this.props.onRemove(this.props.beverage._id)}>Remove</button></td>
             </tr>
         );
     }

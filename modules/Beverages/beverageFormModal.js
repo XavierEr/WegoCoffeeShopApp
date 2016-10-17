@@ -41,11 +41,15 @@ class BeverageFormModal extends React.Component {
     }
 
     handleAddSizePrice() {
-        var price = _.findWhere(this.state.prices, { size: this.state.size, isHotBeverage: this.state.isHotBeverage });
+        var selectedSize = this.state.size;
+        if (!selectedSize || selectedSize === '') {
+            selectedSize = this.props.sizes[0];
+        }
+        var price = _.findWhere(this.state.prices, { size: selectedSize, isHotBeverage: this.state.isHotBeverage });
 
         if (!price) {
             var price = {
-                size: this.state.size,
+                size: selectedSize,
                 price: this.state.price,
                 isHotBeverage: this.state.isHotBeverage
             };

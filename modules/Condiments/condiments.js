@@ -13,6 +13,7 @@ class Condiments extends React.Component {
         this.handleCondimentSubmit = this.handleCondimentSubmit.bind(this);
         this.close = this.close.bind(this);
         this.open = this.open.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -47,6 +48,21 @@ class Condiments extends React.Component {
         this.setState({ showModal: true });
     }
 
+    handleRemove(id) {
+        this.setState({ isLoading: true });
+        $.ajax({
+            url: condimentsApiUrl + "/" + id,
+            type: 'DELETE',
+            success: function (data) {
+                var condiments = _.reject(this.state.condiments, (item) => { return item._id === id });
+                this.setState({ condiments: condiments, isLoading: false });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(condimentsApiUrl, status, err.toString());
+            }.bind(this)
+        });
+    }
+
     render() {
         return (
             <div>
@@ -58,7 +74,7 @@ class Condiments extends React.Component {
                     {this.state.isLoading ? <Spinner /> : null}
                     <div className="row">
                         <div className="col-md-12">
-                            <CondimentsTable condiments={this.state.condiments} />
+                            <CondimentsTable condiments={this.state.condiments} onRemove={this.handleRemove} />
                         </div>
                     </div>
                 </div>

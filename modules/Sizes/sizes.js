@@ -13,6 +13,7 @@ class Sizes extends React.Component {
         this.handleSizeSubmit = this.handleSizeSubmit.bind(this);
         this.close = this.close.bind(this);
         this.open = this.open.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -47,6 +48,21 @@ class Sizes extends React.Component {
         this.setState({ showModal: true });
     }
 
+    handleRemove(id) {
+        this.setState({ isLoading: true });
+        $.ajax({
+            url: sizesApiurl + "/" + id,
+            type: 'DELETE',
+            success: function (data) {
+                var sizes = _.reject(this.state.sizes, (item) => { return item._id === id });
+                this.setState({ sizes: sizes, isLoading: false });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(sizesApiurl, status, err.toString());
+            }.bind(this)
+        });
+    }
+
     render() {
         return (
             <div>
@@ -58,7 +74,7 @@ class Sizes extends React.Component {
                     {this.state.isLoading ? <Spinner /> : null}
                     <div className="row">
                         <div className="col-md-12">
-                            <SizesTable sizes={this.state.sizes} />
+                            <SizesTable sizes={this.state.sizes} onRemove={this.handleRemove} />
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ class BeveragesTypeRow extends React.Component {
     render() {
         return (
             <tr>
-                <th colSpan="4">
+                <th colSpan="5">
                     {this.props.type}
                 </th>
             </tr>

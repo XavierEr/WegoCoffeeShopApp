@@ -224,11 +224,15 @@ class BeverageFormModal extends React.Component {
     }
 
     handleAddSizePrice() {
-        var price = _.findWhere(this.state.prices, { size: this.state.size, isHotBeverage: this.state.isHotBeverage });
+        var selectedSize = this.state.size;
+        if (!selectedSize || selectedSize === '') {
+            selectedSize = this.props.sizes[0];
+        }
+        var price = _.findWhere(this.state.prices, { size: selectedSize, isHotBeverage: this.state.isHotBeverage });
 
         if (!price) {
             var price = {
-                size: this.state.size,
+                size: selectedSize,
                 price: this.state.price,
                 isHotBeverage: this.state.isHotBeverage
             };
@@ -441,6 +445,7 @@ class Beverages extends React.Component {
         this.close = this.close.bind(this);
         this.open = this.open.bind(this);
         this.handleBeverageSubmit = this.handleBeverageSubmit.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -488,6 +493,23 @@ class Beverages extends React.Component {
         }.bind(this));
     }
 
+    handleRemove(id) {
+        this.setState({ isLoading: true });
+        $.ajax({
+            url: beveragesApiUrl + "/" + id,
+            type: 'DELETE',
+            success: function (data) {
+                var beverages = _.reject(this.state.beverages, item => {
+                    return item._id === id;
+                });
+                this.setState({ beverages: beverages, isLoading: false });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(condimentsApiUrl, status, err.toString());
+            }.bind(this)
+        });
+    }
+
     render() {
         return React.createElement(
             'div',
@@ -514,7 +536,7 @@ class Beverages extends React.Component {
                     React.createElement(
                         'div',
                         { className: 'col-md-12' },
-                        React.createElement(BeveragesTable, { beverages: this.state.beverages })
+                        React.createElement(BeveragesTable, { beverages: this.state.beverages, onRemove: this.handleRemove })
                     )
                 )
             )
@@ -567,6 +589,15 @@ class BeveragesRow extends React.Component {
                 "td",
                 null,
                 ventiPrices
+            ),
+            React.createElement(
+                "td",
+                null,
+                React.createElement(
+                    "button",
+                    { type: "button", className: "btn btn-default btn-xs", onClick: () => this.props.onRemove(this.props.beverage._id) },
+                    "Remove"
+                )
             )
         );
     }
@@ -589,7 +620,7 @@ class BeveragesTable extends React.Component {
             if (beverage.type !== lastType) {
                 rows.push(React.createElement(BeveragesTypeRow, { key: beverage.type, type: beverage.type }));
             }
-            rows.push(React.createElement(BeveragesRow, { key: beverage.name, beverage: beverage }));
+            rows.push(React.createElement(BeveragesRow, { key: beverage.name, beverage: beverage, onRemove: this.props.onRemove }));
             lastType = beverage.type;
         });
 
@@ -621,7 +652,8 @@ class BeveragesTable extends React.Component {
                         'th',
                         null,
                         'Venti'
-                    )
+                    ),
+                    React.createElement('th', null)
                 )
             ),
             React.createElement(
@@ -645,7 +677,7 @@ class BeveragesTypeRow extends React.Component {
             null,
             React.createElement(
                 "th",
-                { colSpan: "4" },
+                { colSpan: "5" },
                 this.props.type
             )
         );
@@ -778,6 +810,7 @@ class Condiments extends React.Component {
         this.handleCondimentSubmit = this.handleCondimentSubmit.bind(this);
         this.close = this.close.bind(this);
         this.open = this.open.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -812,6 +845,23 @@ class Condiments extends React.Component {
         this.setState({ showModal: true });
     }
 
+    handleRemove(id) {
+        this.setState({ isLoading: true });
+        $.ajax({
+            url: condimentsApiUrl + "/" + id,
+            type: 'DELETE',
+            success: function (data) {
+                var condiments = _.reject(this.state.condiments, item => {
+                    return item._id === id;
+                });
+                this.setState({ condiments: condiments, isLoading: false });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(condimentsApiUrl, status, err.toString());
+            }.bind(this)
+        });
+    }
+
     render() {
         return React.createElement(
             'div',
@@ -838,7 +888,7 @@ class Condiments extends React.Component {
                     React.createElement(
                         'div',
                         { className: 'col-md-12' },
-                        React.createElement(CondimentsTable, { condiments: this.state.condiments })
+                        React.createElement(CondimentsTable, { condiments: this.state.condiments, onRemove: this.handleRemove })
                     )
                 )
             )
@@ -871,7 +921,8 @@ class CondimentsTable extends React.Component {
                         "th",
                         null,
                         "Price"
-                    )
+                    ),
+                    React.createElement("th", null)
                 )
             ),
             React.createElement(
@@ -890,6 +941,15 @@ class CondimentsTable extends React.Component {
                             "td",
                             null,
                             item.price
+                        ),
+                        React.createElement(
+                            "td",
+                            null,
+                            React.createElement(
+                                "button",
+                                { type: "button", className: "btn btn-default btn-xs", onClick: () => this.props.onRemove(item._id) },
+                                "Remove"
+                            )
                         )
                     );
                 })
@@ -917,7 +977,7 @@ class BeverageOptionsRow extends React.Component {
             ),
             React.createElement(
                 'div',
-                { className: 'cdiv' },
+                { className: 'drinkdiv' },
                 this.props.isLoadingBeverages ? React.createElement(Spinner, null) : null,
                 this.props.beverages.map((item, i) => {
                     return React.createElement(
@@ -1695,6 +1755,7 @@ class Sizes extends React.Component {
         this.handleSizeSubmit = this.handleSizeSubmit.bind(this);
         this.close = this.close.bind(this);
         this.open = this.open.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -1729,6 +1790,23 @@ class Sizes extends React.Component {
         this.setState({ showModal: true });
     }
 
+    handleRemove(id) {
+        this.setState({ isLoading: true });
+        $.ajax({
+            url: sizesApiurl + "/" + id,
+            type: 'DELETE',
+            success: function (data) {
+                var sizes = _.reject(this.state.sizes, item => {
+                    return item._id === id;
+                });
+                this.setState({ sizes: sizes, isLoading: false });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(sizesApiurl, status, err.toString());
+            }.bind(this)
+        });
+    }
+
     render() {
         return React.createElement(
             'div',
@@ -1755,7 +1833,7 @@ class Sizes extends React.Component {
                     React.createElement(
                         'div',
                         { className: 'col-md-12' },
-                        React.createElement(SizesTable, { sizes: this.state.sizes })
+                        React.createElement(SizesTable, { sizes: this.state.sizes, onRemove: this.handleRemove })
                     )
                 )
             )
@@ -1788,7 +1866,8 @@ class SizesTable extends React.Component {
                         "th",
                         null,
                         "Descriptions"
-                    )
+                    ),
+                    React.createElement("th", null)
                 )
             ),
             React.createElement(
@@ -1807,6 +1886,15 @@ class SizesTable extends React.Component {
                             "td",
                             null,
                             item.description
+                        ),
+                        React.createElement(
+                            "td",
+                            null,
+                            React.createElement(
+                                "button",
+                                { type: "button", className: "btn btn-default btn-xs", onClick: () => this.props.onRemove(item._id) },
+                                "Remove"
+                            )
                         )
                     );
                 })
