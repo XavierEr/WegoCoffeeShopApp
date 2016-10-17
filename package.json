@@ -2,10 +2,12 @@
   "name": "wegocoffeeshopapp",
   "version": "1.0.0",
   "description": "Technical Test",
+  "engines": {
+    "node": "6.6.0"
+  },
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +30,5 @@
     "react-bootstrap": "^0.30.5",
     "react-dom": "^15.3.2",
     "react-router": "^2.8.1"
-  },
-  "engines": {
-    "node": "6.6.0"
   }
 }
